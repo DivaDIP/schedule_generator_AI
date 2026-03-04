@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:schedule_generator_ai/models/task.dart';
 import 'package:schedule_generator_ai/services/gemini_service.dart';
+import 'package:schedule_generator_ai/ui/home/components/add_task_card.dart';
+import 'package:schedule_generator_ai/ui/home/components/schedule_result_card.dart';
+import 'package:schedule_generator_ai/ui/home/components/task_list_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,9 +40,17 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: EdgeInsets.all(16),
         children: [
           _buildHeader(),
-          // letakkan component add task card disini
-          // letakkan component task list disini
-          _buildGenerateButton()
+          AddTaskCard(onAddTask: (task) => setState(() => tasks.add(task))),
+          SizedBox(height: 16),
+          TaskListSection(
+            tasks: tasks,
+            // ignore: collection_methods_unrelated_type
+            onDelete: (i) => setState(() => tasks.removeAt(i)),
+          ),
+          SizedBox(height: 16),
+          _buildGenerateButton(),
+          SizedBox(height: 16),
+          ScheduleResultCard(schedule: scheduleResult)
         ],
       ),
     );
